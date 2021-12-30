@@ -1,0 +1,11 @@
+.table {
+  border-collapse: separate !important;  
+  border-radius: 20px;
+  border: 1px solid black;
+  padding: 10px;
+  max-height: 200px;
+
+  .alt {
+    background-color: var(--whitesmoke);
+  };
+};
