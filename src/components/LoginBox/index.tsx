@@ -6,15 +6,21 @@ import { Si1Password } from "react-icons/si";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useLogin } from "../../hook/useLogin";
 import { useIsLoading } from "../../hook/useIsLoading";
+import Router from "next/router";
 
 function LoginBox() {
   const isLoading = useIsLoading();
   const login = useLogin();
   const toast = useToast();
+  const token = localStorage.getItem("ims@auth");
   const [credentials, setCredentials] = useState({
     login: "",
     password: "" 
   });
+
+  if(token) {
+    Router.push("/dashboard");
+  };
 
   function onChangeCredentials(e: ChangeEvent<HTMLInputElement>) {
     setCredentials(c => {

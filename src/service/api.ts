@@ -8,8 +8,9 @@ const api = axios.create({
 api.interceptors.response.use(res => res, (error: AxiosError) => {
   if(error.response.status === 401) {
     const token = localStorage.getItem("ims@auth");
-
+    
     if(token) {
+      console.log("F", token);
       api.defaults.headers["authorization"] = "Bearer " + token;
       return new Promise((resolve, reject) => {
         error.request.headers["authorization"] = "Bearer " + token;

@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { createContext } from "use-context-selector";
@@ -35,18 +36,21 @@ function AppProvider ({ children }: AppProviderProps) {
   }, [setIsLoading, setUser, user]);
 
   const login = useCallback(async(credentials: Credentials, onError: (message: string) => void) => {
+    setIsLoading(true);
     await api.post("/login", credentials).then(({ data }) => {
       api.defaults.headers["authorization"] = "Bearer " + data.token;
       localStorage.setItem("ims@auth", data.token);
       setUser(data.user);
       router.asPath === "/" && router.push("/dashboard");
-    }).catch(err => {
+      setIsLoading(false);
+    }).catch((err: AxiosError) => {
       onError(err.response.data.message);
+      setIsLoading(false);
     });
-  }, [setUser]);
+  }, [setIsLoading, setUser]);
 
   useEffect(() => {
-
+    checkIsAuth();
   }, []);
 
   return (

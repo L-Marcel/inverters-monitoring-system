@@ -1,4 +1,4 @@
-import { Box, SimpleGrid, Text, useBreakpointValue } from "@chakra-ui/react";
+import { SimpleGrid, useBreakpointValue } from "@chakra-ui/react";
 import { InvertersListItem } from "./InvertersListItem";
 
 interface InvertersListProps {
