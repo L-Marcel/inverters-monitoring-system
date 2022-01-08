@@ -17,7 +17,7 @@ function AppProvider ({ children }: AppProviderProps) {
 
   const checkIsAuth = useCallback(() => {
     if(!user) {
-      const token = localStorage.getItem("ims@auth");
+      const token = window.localStorage.getItem("ims@auth");
       if(token) {
         api.defaults.headers["authorization"] = "Bearer " + token;
         token && api.get("/user").then(({ data }) => { 
@@ -39,7 +39,7 @@ function AppProvider ({ children }: AppProviderProps) {
     setIsLoading(true);
     await api.post("/login", credentials).then(({ data }) => {
       api.defaults.headers["authorization"] = "Bearer " + data.token;
-      localStorage.setItem("ims@auth", data.token);
+      window.localStorage.setItem("ims@auth", data.token);
       setUser(data.user);
       router.asPath === "/" && router.push("/dashboard");
       setIsLoading(false);
