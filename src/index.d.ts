@@ -3,6 +3,8 @@ declare type AppContext = {
   isLoading: boolean;
   login: (credentials: Credentials, onError: (message: string) => void) => void;
   checkIsAuth: () => void;
+  token: string;
+  setToken: (token: string | boolean) => void;
 };
 
 declare type User = {

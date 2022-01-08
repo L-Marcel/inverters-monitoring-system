@@ -7,12 +7,13 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useLogin } from "../../hook/useLogin";
 import { useIsLoading } from "../../hook/useIsLoading";
 import Router from "next/router";
+import { useToken } from "../../hook/useToken";
 
 function LoginBox() {
   const isLoading = useIsLoading();
   const login = useLogin();
   const toast = useToast();
-  const token = localStorage.getItem("ims@auth");
+  const { token } = useToken();
   const [credentials, setCredentials] = useState({
     login: "",
     password: "" 
