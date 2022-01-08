@@ -17,7 +17,7 @@ function AppProvider ({ children }: AppProviderProps) {
 
   const checkIsAuth = useCallback(() => {
     if(!user) {
-      const token = window.localStorage.getItem("ims@auth");
+      const token = typeof window !== "undefined"? localStorage.getItem("ims@auth"):false;
       if(token) {
         api.defaults.headers["authorization"] = "Bearer " + token;
         token && api.get("/user").then(({ data }) => { 
@@ -33,13 +33,13 @@ function AppProvider ({ children }: AppProviderProps) {
         router.asPath !== "/" && router.push("/");
       };
     };
-  }, [setIsLoading, setUser, user]);
+  }, [window, setIsLoading, setUser, user]);
 
   const login = useCallback(async(credentials: Credentials, onError: (message: string) => void) => {
     setIsLoading(true);
     await api.post("/login", credentials).then(({ data }) => {
       api.defaults.headers["authorization"] = "Bearer " + data.token;
-      window.localStorage.setItem("ims@auth", data.token);
+      typeof window !== "undefined" && localStorage.setItem("ims@auth", data.token);
       setUser(data.user);
       router.asPath === "/" && router.push("/dashboard");
       setIsLoading(false);
@@ -47,7 +47,7 @@ function AppProvider ({ children }: AppProviderProps) {
       onError(err.response.data.message);
       setIsLoading(false);
     });
-  }, [setIsLoading, setUser]);
+  }, [window, setIsLoading, setUser]);
 
   useEffect(() => {
     checkIsAuth();
